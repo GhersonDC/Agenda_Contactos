@@ -9,7 +9,7 @@ module.exports = {
         res.send(data);
       })
       .catch((err) => {
-        res.status(400).send("error");
+        res.status(400).send("error on getall");
       });
   },
   getOneById: (req, res) => {
@@ -20,15 +20,15 @@ module.exports = {
         res.send(data);
       })
       .catch((err) => {
-        res.status(400).send("error");
+        res.status(400).send("error on id");
       });
   },
   getOneByName: (req, res) => {
-    const nombre = req.params.nombre;
+    const nombre = req.query.nombre;
     contactos
       .find({ status: 1, nombre: nombre })
       .then((data) => {
-        res.send(data);
+        res.send(OK);
       })
       .catch((err) => {
         res.status(400).send(err, "error");
@@ -60,18 +60,20 @@ module.exports = {
     console.log("UPDATE", update);
 
     await contactos
-      .findByIdAndUpdate(id, update)
+      .findByIdAndUpdate(id, update, { new: true })
       .then((data) => {
         res.send(data);
       })
       .catch();
   },
-  delete: (req, res) => {
+  softdelete: (req, res) => {
     const id = req.params.id;
-    contactos.findByIdAndDelete(id)
-    .then((data)=>{
-      res.send(data)
-    })
-    .catch()
+    const status = { status: 0 };
+    contactos
+      .findByIdAndUpdate(id, status, { new: true })
+      .then((data) => {
+        res.send(data);
+      })
+      .catch();
   },
 };
