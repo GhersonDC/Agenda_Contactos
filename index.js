@@ -4,15 +4,16 @@ const mongoose = require("mongoose");
 
 const apiRoutes = require("./src/routes/api");
 
+require('dotenv').config();
+
+const uri = process.env.MONGODB;
+
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(apiRoutes);
 
-const port = 3000;
-
-const uri =
-  "mongodb+srv://usuario_prubea:gherson23@cluster0.fvnd7.mongodb.net/db_contactos?retryWrites=true&w=majority";
+const port = process.env.PORT || 3000;
 
 mongoose.connect(uri, (err) => {
   if (err) {
@@ -20,7 +21,11 @@ mongoose.connect(uri, (err) => {
   } else {
     console.log("conexion correcta");
     app.listen(port, () => {
-      console.log("App is running on port " + port);
+      if (process.env.NODE_ENV === "local") {
+        console.log("App is running on LOCAL port " + port);
+      } else {
+        console.log("App is running on PROD port " + port);
+      }
     });
   }
 });
