@@ -5,6 +5,7 @@ const contactoSchema = new Schema({
     telefono: {type:String, default: "000"},
     correo: {type:String},
     status: {type:Number, default: 1},
+    userId: {type:String },
 });
 
 module.exports = model('contactos', contactoSchema);

@@ -11,6 +11,7 @@ const uri = process.env.MONGODB;
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
+// app.use(express.json()); //para enviar en el body en toda la app en lugar de cada ruta que lo requiera
 app.use(apiRoutes);
 
 const port = process.env.PORT || 3000;
