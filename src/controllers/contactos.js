@@ -55,6 +55,9 @@ module.exports = {
 
     contactos.create(data).then((response) => {
       res.send(response);
+    })
+    .catch(e=>{
+      res.sendStatus(400);
     });
   },
   update: async (req, res) => {
