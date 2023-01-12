@@ -47,7 +47,7 @@ module.exports = {
         res.status(400).send(err, "error");
       });
   },
-  create: async (req, res) => {
+  crear: async (req, res) => {
 
     let data = req.body;
 
