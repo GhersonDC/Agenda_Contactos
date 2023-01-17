@@ -47,12 +47,13 @@ module.exports = {
         res.status(400).send(err, "error");
       });
   },
-  crear: async (req, res) => {
+  crear: (req, res) => {
 
     let data = req.body;
 
-    data.userId = req.user._id;
-
+    data.userId = req.user_id;
+    
+    console.log(data.userId)
     contactos.create(data).then((response) => {
       res.send(response);
     })

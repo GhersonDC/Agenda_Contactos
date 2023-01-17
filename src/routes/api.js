@@ -11,7 +11,9 @@ const storage = { //multer.diskStorage(
         callback(null, 'uploads');
     },
     filename: (req, file, callback) => {
-        let nombre = new Date().getTime() + '.jpg';
+        const extension = file.originalname.split('.').pop();
+        // let nombre = new Date().getTime() + '.jpg';
+        const nombre = `${req.userId._id}-${new Date().getTime()}.${extension}`; //revisar y preguntar el porque se nombro como user en lugar de userId
         callback(null, nombre);
     },
 }; //)
@@ -27,7 +29,7 @@ router.get("/contactos", contactosController.listar);
 router.get('/contactos/:id', contactosController.ver);
 router.get('/contactos/nombre/:nombre', contactosController.getOneByName);
 router.get('/contactos/correo/:correo', contactosController.getOneByCorreo);
-router.post('/contactos', express.json(), upload.single('foto') , contactosController.crear );
+router.post('/contactos', express.json(), upload.single('foto') , contactosController.crear ); //parametro foto para buscarlo
 router.put('/contactos/update/:id', express.json(), contactosController.update);
 router.delete('/contactos/delete/:id', contactosController.delete);
 
