@@ -23,6 +23,7 @@ module.exports = {
           const { _id, nombre, correo } = response; //faltaba el correo para login correcto
           const token = jwt.sign({ _id, nombre, correo }, process.env.SECRET);
           res.send({token, nombre, correo});
+          
 
         } else {
           res.sendStatus(401);
@@ -35,17 +36,31 @@ module.exports = {
   registro: (req, res) => {
     const datos = req.body;
 
+    if(!datos.password || !datos.nombre || !datos.correo){
+      res.sendStatus(400);
+      return;
+    }
+
     const hashedPassword = hashPassword(datos.password);
 
     datos.password = hashedPassword;
 
     modelo
       .create(datos)
-      .then((response) => {
-        res.send(response);
+      .then(response => {
+        const {id,nombre,correo} = response
+        res.render('confirmacion',{
+            nombre,
+            correo,
+          });
       })
-      .catch((err) => {
-        res.sendStatus(400);
-      });
+      .catch(err => {
+        console.log(err);
+        // res.sendStatus(400);
+        res.render('confirmacion', { error: true, correo: datos.correo });
+    });
   },
+  formRegistro : (req, res) =>{
+    res.render('registro');
+  }
 };

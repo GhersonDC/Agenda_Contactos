@@ -53,7 +53,12 @@ module.exports = {
 
     data.userId = req.user_id;
     
-    console.log(data.userId)
+    console.log(req.file);
+   
+    console.log(req.file);
+    
+    data.photoUrl = req.file.filename;
+
     contactos.create(data).then((response) => {
       res.send(response);
     })
