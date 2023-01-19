@@ -11,11 +11,11 @@ const {engine} = require('express-handlebars');
 
 const app = express();
 
-// app.use(express.urlencoded);
+
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views',  __dirname + '/src/views');
-
+app.use(express.urlencoded());
 require('dotenv').config();
 
 const uri = process.env.MONGODB;
@@ -36,7 +36,7 @@ app.get('',(req,res)=>{
 
 const port = process.env.PORT || 3000;
 
-mongoose.set('strictQuery', true);
+mongoose.set('strictQuery', false);
 
 mongoose.connect(uri, (err) => {
   if (err) {
